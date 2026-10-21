@@ -1,10 +1,12 @@
 #pragma once
-
+#include <iosfwd>
 namespace lab02 {
 
 class Polynomial {
     double* coeff_;
     int degree_;
+
+    void trim();
 
 public:
     Polynomial();
@@ -19,6 +21,11 @@ public:
     int degree() const {
         return degree_;
     }
+
+    double evaluate(const double x) const;
+    void add(const Polynomial& other);
+    void mul(const Polynomial& other);
+    void print(std::ostream& out) const;
 };
 
 }  // namespace lab02
