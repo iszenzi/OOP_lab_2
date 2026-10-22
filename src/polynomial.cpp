@@ -2,8 +2,8 @@
 
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 #include <ostream>
+#include <stdexcept>
 #include <utility>
 
 namespace lab02 {
@@ -174,5 +174,45 @@ void Polynomial::print(std::ostream& out) const {
             out << "*x^" << i;
         }
     }
+}
+
+double Polynomial::find_root(double a, double b) const {
+    if (!(a < b)) {
+        throw std::invalid_argument("Левая граница должна быть меньше правой");
+    }
+
+    double result_a = evaluate(a);
+    double result_b = evaluate(b);
+    constexpr double epsilon = 1e-9;
+    constexpr int iterations = 1000;
+
+    if (std::abs(result_a) < epsilon) {
+        return a;
+    }
+
+    if (std::abs(result_b) < epsilon) {
+        return b;
+    }
+
+    if ((result_a < 0.0) == (result_b < 0.0)) {
+        throw std::invalid_argument("Значения многочлена на концах отрезка должны иметь разные знаки");
+    }
+
+    for (int i = 0; i < iterations; ++i) {
+        const double middle = a + (b - a) / 2.0;
+        const double result_middle = evaluate(middle);
+
+        if (std::abs(result_middle) < epsilon) {
+            return middle;
+        }
+
+        if ((result_a < 0.0) != (result_middle < 0.0)) {
+            b = middle;
+        } else {
+            a = middle;
+            result_a = result_middle;
+        }
+    }
+    throw std::runtime_error("Не удалось найти корень с требуемой точностью");
 }
 }  // namespace lab02

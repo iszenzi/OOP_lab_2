@@ -26,6 +26,8 @@ public:
     void add(const Polynomial& other);
     void mul(const Polynomial& other);
     void print(std::ostream& out) const;
+
+    double find_root(double a, double b) const;
 };
 
 }  // namespace lab02
