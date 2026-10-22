@@ -182,15 +182,15 @@ double Polynomial::find_root(double a, double b) const {
     }
 
     double result_a = evaluate(a);
-    double result_b = evaluate(b);
-    constexpr double epsilon = 1e-9;
-    constexpr int iterations = 1000;
+    const double result_b = evaluate(b);
+    constexpr double kEpsilon = 1e-9;
+    constexpr int kMaxIterations = 1000;
 
-    if (std::abs(result_a) < epsilon) {
+    if (std::abs(result_a) < kEpsilon) {
         return a;
     }
 
-    if (std::abs(result_b) < epsilon) {
+    if (std::abs(result_b) < kEpsilon) {
         return b;
     }
 
@@ -198,11 +198,11 @@ double Polynomial::find_root(double a, double b) const {
         throw std::invalid_argument("Значения многочлена на концах отрезка должны иметь разные знаки");
     }
 
-    for (int i = 0; i < iterations; ++i) {
+    for (int i = 0; i < kMaxIterations; ++i) {
         const double middle = a + (b - a) / 2.0;
         const double result_middle = evaluate(middle);
 
-        if (std::abs(result_middle) < epsilon) {
+        if (std::abs(result_middle) < kEpsilon) {
             return middle;
         }
 
